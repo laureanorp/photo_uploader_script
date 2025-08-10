@@ -5,16 +5,13 @@ from typing import List
 from PIL import Image
 from bs4 import BeautifulSoup
 import unicodedata
+import argparse
 
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(levelname)-8s %(message)s',
     datefmt='%Y-%m-%d %H:%M:%S'
 )
-
-input_folder = "/Users/laureanoruiz/Desktop/MY STUFF/CODING/PhotoPortfolio/new_photos"
-output_folder = "/Users/laureanoruiz/Desktop/MY STUFF/CODING/PhotoPortfolio/photos_resized"
-html_file = "index.html"
 
 MAX_WIDTH = 1500
 MAX_HEIGHT = 2000
@@ -208,17 +205,19 @@ def git_commit_and_push(num_new_images: int, commit_message: str = None) -> None
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Resize images, update HTML, and optionally push changes to git.")
+    parser.add_argument("--input", required=True, help="Path to the folder with new images")
+    parser.add_argument("--output", required=True, help="Path to the folder where resized images will be stored")
+    parser.add_argument("--html", required=True, help="Path to the HTML file to update")
+    args = parser.parse_args()
+
     logging.info("Script started!")
-    new_images = process_images(input_folder, output_folder)
+    new_images = process_images(args.input, args.output)
     if new_images:
-        update_html_only_photogrid(html_file, output_folder, new_images)
+        update_html_only_photogrid(args.html, args.output, new_images)
         logging.info("\n📂 Process Complete!")
-        logging.info(f"✅ {len(new_images)} new image(s) resized and saved to '{output_folder}'.")
-        logging.info(f"🖼️ {len(new_images)} new image(s) added to the HTML file '{html_file}'.")
+        logging.info(f"✅ {len(new_images)} new image(s) resized and saved to '{args.output}'.")
+        logging.info(f"🖼️ {len(new_images)} new image(s) added to the HTML file '{args.html}'.")
         git_commit_and_push(len(new_images))
     else:
         logging.info("No images processed.")
-
-
-if __name__ == "__main__":
-    main()
