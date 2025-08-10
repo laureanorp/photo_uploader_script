@@ -27,9 +27,9 @@ TODO ADD PHOTO
 8. (Optional) Set up GitHub Pages for your own repo if you want an easy way to deploy your portfolio.
 
 
-## Small note
+## Technical notes
 
-I didn't add certain parameters to the script to keep simple. Inside `photo_uploader/main.py` you can find:
+- I didn't add certain parameters to the script to keep simple. In case you want more granular contorl over how the script works, inside `photo_uploader/main.py` you can find:
 
 ```python 
 MAX_WIDTH = 1500
@@ -38,4 +38,8 @@ MAX_HEIGHT = 2000
 HTML_FILE_RELATIVE_PATH = 'index.html' 
 ```
 
-In case you want more granular contorl over how the script works.
+- JPG, JPEG, and PNG are supported
+
+- New photos are added to the top of HTML social-media-timeline style
+
+- When processed, all photos are renamed with an index before the name: "10_landscape,jpg", so the newer/older order can be preserved

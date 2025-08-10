@@ -217,7 +217,7 @@ def main() -> None:
     new_images = process_images(args.input, args.output)
     if new_images:
         update_html_only_photogrid(html_file, args.output, new_images)
-        logging.info("\n📂 Process Complete!")
+        logging.info("📂 Process Complete!")
         logging.info(f"✅ {len(new_images)} new image(s) resized and saved to '{args.output}'.")
         logging.info(f"🖼️ {len(new_images)} new image(s) added to the HTML file '{html_file}'.")
         git_commit_and_push(len(new_images))
