@@ -16,6 +16,8 @@ logging.basicConfig(
 MAX_WIDTH = 1500
 MAX_HEIGHT = 2000
 
+HTML_FILE_RELATIVE_PATH = 'index.html'  # for now not needed as an script arg
+
 
 def normalize_filename(filename: str) -> str:
     """
@@ -208,16 +210,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Resize images, update HTML, and optionally push changes to git.")
     parser.add_argument("--input", required=True, help="Path to the folder with new images")
     parser.add_argument("--output", required=True, help="Path to the folder where resized images will be stored")
-    parser.add_argument("--html", required=True, help="Path to the HTML file to update")
     args = parser.parse_args()
+    html_file = HTML_FILE_RELATIVE_PATH
 
     logging.info("Script started!")
     new_images = process_images(args.input, args.output)
     if new_images:
-        update_html_only_photogrid(args.html, args.output, new_images)
+        update_html_only_photogrid(html_file, args.output, new_images)
         logging.info("\n📂 Process Complete!")
         logging.info(f"✅ {len(new_images)} new image(s) resized and saved to '{args.output}'.")
-        logging.info(f"🖼️ {len(new_images)} new image(s) added to the HTML file '{args.html}'.")
+        logging.info(f"🖼️ {len(new_images)} new image(s) added to the HTML file '{html_file}'.")
         git_commit_and_push(len(new_images))
     else:
         logging.info("No images processed.")
